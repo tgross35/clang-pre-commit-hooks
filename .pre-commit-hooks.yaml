@@ -137,7 +137,7 @@
     language: script
     args: ['11.0.0','whole-file']
     require_serial: false
-    
+
 -   id: clang-format-diff-15.0.0
     name: clang-format-diff-15.0.0
     entry: clang_format.py
