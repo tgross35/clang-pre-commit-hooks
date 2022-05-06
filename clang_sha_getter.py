@@ -16,15 +16,17 @@ BASEURL = "https://commondatastorage.googleapis.com/chromium-clang-format"
 class Entry:
     key: str
     date: datetime
-    typename:str
-    mime:str
-    version:Tuple[int,int,int]=None
+    typename: str
+    mime: str
+    version: Tuple[int, int, int] = None
 
     def dump(self):
-        return self.version,{self.platform:self.key}
+        return self.version, {self.platform: self.key}
 
-def get_finfo(url:str, f:BinaryIO)->Entry:
+
+def get_finfo(url: str, f: BinaryIO) -> Entry:
     pass
+
 
 def get_format_shas():
     with request.urlopen(BASEURL) as f:
@@ -47,7 +49,7 @@ def get_format_shas():
     entries = []
 
     for el in content_elements:
-        key=el.find("{*}Key").text
+        key = el.find("{*}Key").text
         # fromisoformat is too picky and doesn't like iso format
         lastmodified = datetime.fromisoformat(
             el.find("{*}LastModified").text.partition("Z")[0]
@@ -59,10 +61,13 @@ def get_format_shas():
             # Just carry on if we can't download for some reason
             continue
 
-        entry = Entry(key, lastmodified,magic.from_buffer(buf),magic.from_buffer(buf,mime=True))
+        entry = Entry(
+            key, lastmodified, magic.from_buffer(buf), magic.from_buffer(buf, mime=True)
+        )
         entries.append(entry)
 
     pass
 
-if __name__=='__main__':
-    main()
+
+if __name__ == "__main__":
+    get_format_shas()
